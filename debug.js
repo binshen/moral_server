@@ -51,14 +51,35 @@
 
 //faae3e645e9cb3cfbb91f9e46eabefeacf42799af82218ec886c4bf04f9fef29
 
-var crypto = require('crypto');
-var cipher = crypto.createCipher('aes-256-cbc','faae3e645e9cb3cfbb91f9e46eabefeacf42799af82218ec886c4bf04f9fef29')
-var text = "5a000a010002f00f0c5b";
-var crypted = cipher.update(text,'utf8','hex');
-crypted += cipher.final('hex');
-console.log(crypted);
+// var crypto = require('crypto');
+// var cipher = crypto.createCipher('aes-256-cbc','faae3e645e9cb3cfbb91f9e46eabefeacf42799af82218ec886c4bf04f9fef29')
+// var text = "5a000a010002f00f0c5b";
+// var crypted = cipher.update(text,'utf8','hex');
+// crypted += cipher.final('hex');
+// console.log(crypted);
+//
+// var decipher = crypto.createDecipher('aes-256-cbc','faae3e645e9cb3cfbb91f9e46eabefeacf42799af82218ec886c4bf04f9fef29')
+// var dec = decipher.update(crypted,'hex','utf8');
+// dec += decipher.final('utf8');
+// console.log(dec);
 
-var decipher = crypto.createDecipher('aes-256-cbc','faae3e645e9cb3cfbb91f9e46eabefeacf42799af82218ec886c4bf04f9fef29')
-var dec = decipher.update(crypted,'hex','utf8');
-dec += decipher.final('utf8');
-console.log(dec);
+var mongoClient = require('mongodb').MongoClient;
+var URL = 'mongodb://121.40.92.176:27017/moral_db';
+var COLLECTION = 'data';
+
+mongoClient.connect(URL, function(err, db) {
+    if (err) return;
+    console.log('Connecting to Mongo DB at ' + URL);
+
+    insertDocument(db, {'aaa':'2222'}, function(data) {
+        console.log('++++++++')
+    });
+});
+
+var insertDocument = function(db, data, callback) {
+    var collection = db.collection(COLLECTION);
+    collection.insertOne({ data: data, date: Date.now() }, function(err, result) {
+        if (err) return;
+        callback(result);
+    });
+};
