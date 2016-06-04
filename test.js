@@ -94,5 +94,15 @@
 // console.log(items);
 // console.log(items[50]);
 
-var config = require('./config');
-console.log(config.HOST);
+// var config = require('./config');
+// console.log(config.HOST);
+
+// var a = 234;
+// console.log(a.toString(16));
+//
+// var b = 0xea;
+// console.log(b.toString());
+
+// var method = require('./method');
+// var data = '5a003301000300000000000000000000000000000000000000000000000000000000006c01d60000c90000140000000000575b'
+// console.log(method.checkSum(data));
