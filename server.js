@@ -34,6 +34,7 @@ mongoClient.connect(config.URL, function(err, db) {
 
             //2.云地址写入WIFI模块
             if(value.startsWith('5a0033010002')) {
+                method.insertDocument(db, value, function(data) {});
                 socket.write(new Buffer(config.OUTPUT_2));
                 return;
             }

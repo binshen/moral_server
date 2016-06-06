@@ -2,6 +2,8 @@
  * Created by bin.shen on 6/4/16.
  */
 
+var config = require('./config');
+
 module.exports.checkSum = function(data) {
     var fields = data.match(/.{2}/g);
     var length = fields.length;
