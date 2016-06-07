@@ -28,7 +28,7 @@ mongoClient.connect(config.URL, function(err, db) {
 
             //3.传感器数据上传
             if(value.startsWith('5a0033010003')) {
-                method.insertDocument(db, value, function(data) {});
+                method.insertDocument2(db, value, function(data) {});
                 return;
             }
 

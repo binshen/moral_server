@@ -106,3 +106,7 @@
 // var method = require('./method');
 // var data = '5a003301000300000000000000000000000000000000000000000000000000000000006c01d60000c90000140000000000575b'
 // console.log(method.checkSum(data));
+
+var method = require('./method');
+var a = 'ea';
+console.log(method.toDec(a));
