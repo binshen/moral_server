@@ -43,6 +43,22 @@ module.exports.insertDocument = function(db, data, callback) {
     });
 };
 
+module.exports.registerDevice = function(db, data, callback) {
+    var fields = data.match(/.{2}/g);
+    var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
+    var collection = db.collection("devices");
+    collection.find({mac: mac}).limit(1).next(function(err1, doc){
+        if (err1) return;
+        if(doc == null) {
+            collection.insertOne({ mac: mac }, function(err2, result) {
+                if (err2) return;
+                callback(result);
+            });
+        }
+    });
+};
+
+
 module.exports.insertData = function(db, data, callback) {
     var fields = data.match(/.{2}/g);
 
@@ -89,13 +105,14 @@ module.exports.insertData = function(db, data, callback) {
 /////////////////////////////////////////////////
 module.exports.insertDocument2 = function(db, data, callback) {
     var fields = data.match(/.{2}/g);
+    var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
     var x01 = this.toDec(fields[20]) + this.toDec(fields[21]); //PM2.5数据
     var x09 = this.toDec(fields[32]) + this.toDec(fields[33]); //甲醛
     var x10 = this.toDec(fields[34]) + this.toDec(fields[35]); //湿度
     var x11 = this.toDec(fields[36]) + this.toDec(fields[37]); //温度
 
     var collection = db.collection(config.COLLECTION);
-    collection.insertOne({ data: data + ' - ' + x01 + ', ' + x09 + ', ' + x10 + ', ' + x11, date: Date.now() }, function(err, result) {
+    collection.insertOne({ mac: mac, data: data + ' - ' + x01 + ', ' + x09 + ', ' + x10 + ', ' + x11, date: Date.now() }, function(err, result) {
         if (err) return;
         callback(result);
     });

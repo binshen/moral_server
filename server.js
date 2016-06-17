@@ -41,6 +41,7 @@ mongoClient.connect(config.URL, function(err, db) {
 
             //6.配网数据
             if(value.startsWith('5a0033010006')) {
+                method.registerDevice(db, value, function(data) {});
                 socket.write(new Buffer(config.OUTPUT_6));
                 return;
             }

@@ -107,6 +107,26 @@
 // var data = '5a003301000300000000000000000000000000000000000000000000000000000000006c01d60000c90000140000000000575b'
 // console.log(method.checkSum(data));
 
-var method = require('./method');
-var a = 'ea';
-console.log(method.toDec(a));
+// var method = require('./method');
+// var a = 'ea';
+// console.log(method.toDec(a));
+
+
+var mongoClient = require('mongodb').MongoClient;
+var URL = 'mongodb://121.40.92.176:27017/moral_db';
+
+mongoClient.connect(URL, function(err, db) {
+    if (err) return;
+    console.log('Connecting to Mongo DB at ' + URL);
+
+    var mac = "1q2w3e4r5t6y"
+    var collection = db.collection("devices");
+    collection.find({mac: mac}).limit(1).next(function(err, doc){
+        if(doc == null) {
+            collection.insertOne({ mac: mac }, function(err, result) {
+                if (err) return;
+                //callback(result);
+            });
+        }
+    });
+});
