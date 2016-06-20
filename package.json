@@ -1,0 +1,11 @@
+{
+  "name": "moral_server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "mongodb": "~2.1.21"
+  }
+}

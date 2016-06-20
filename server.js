@@ -26,6 +26,12 @@ mongoClient.connect(config.URL, function(err, db) {
                 return;
             }
 
+            //1.心跳命令行
+            if(value.startsWith('5a000a010001')) {
+                socket.write(new Buffer(config.OUTPUT_2));
+                return;
+            }
+
             //3.传感器数据上传
             if(value.startsWith('5a0033010003')) {
                 method.insertDocument2(db, value, function(data) {});
