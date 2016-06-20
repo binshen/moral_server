@@ -28,7 +28,7 @@ mongoClient.connect(config.URL, function(err, db) {
 
             //1.心跳命令行
             if(value.startsWith('5a000a010001')) {
-                socket.write(new Buffer(config.OUTPUT_2));
+                socket.write(new Buffer(config.OUTPUT_1));
                 return;
             }
 

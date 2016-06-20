@@ -9,7 +9,7 @@ var config = {
     URL: "mongodb://127.0.0.1:27017/moral_db",
     COLLECTION: "documents",
 
-    OUTPUT_2: [
+    OUTPUT_1: [
         0x6A, 0x00, 0x0A, 0x01, 0x00, 0x01, 0xA1, 0x1A, 0xC7, 0x6B
     ],
 
