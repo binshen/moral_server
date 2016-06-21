@@ -45,6 +45,12 @@ mongoClient.connect(config.URL, function(err, db) {
                 return;
             }
 
+            //4.云端时间
+            if(value.startsWith('5a000a010004')) {
+                socket.write(new Buffer(config.OUTPUT_4));
+                return;
+            }
+
             //6.配网数据
             if(value.startsWith('5a0033010006')) {
                 method.registerDevice(db, value, function(data) {});
