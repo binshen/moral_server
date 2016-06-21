@@ -6,6 +6,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "mongodb": "~2.1.21"
+    "mongodb": "~2.1.21",
+    "moment": "~2.13.0"
   }
 }

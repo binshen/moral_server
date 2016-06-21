@@ -35,6 +35,17 @@ module.exports.checkSum = function(data) {
     }
 };
 
+module.exports.calSum = function(fields) {
+    var length = fields.length;
+    var total = 0;
+    for(var i in fields) {
+        if(i == 0) continue;
+        if(i == length - 2) break;
+        total += fields[i];
+    }
+    return total.toString(16).substr(-2);
+};
+
 module.exports.insertDocument = function(db, data, callback) {
     var collection = db.collection(config.COLLECTION);
     collection.insertOne({ data: data, date: Date.now() }, function(err, result) {
@@ -42,6 +53,26 @@ module.exports.insertDocument = function(db, data, callback) {
         callback(result);
     });
 };
+
+module.exports.checkSum2 = function(fields) {
+    var length = fields.length;
+    var total = 0;
+    var check_sum = '';
+    for(var i in fields) {
+        if(i == 0) continue;
+        if(i < length - 2) {
+            total += fields[i];
+        } else if(i == length - 2) {
+            check_sum = fields[i];
+        }
+    }
+    if(total.toString(16).substr(-2) == check_sum) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
 
 module.exports.registerDevice = function(db, data, callback) {
     var fields = data.match(/.{2}/g);
