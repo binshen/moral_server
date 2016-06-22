@@ -78,7 +78,7 @@ module.exports.registerDevice = function(db, data, callback) {
     var fields = data.match(/.{2}/g);
     var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
     var collection = db.collection("devices");
-    collection.find({mac: mac}).limit(1).next(function(err1, doc){
+    collection.find({ mac: mac.toLowerCase() }).limit(1).next(function(err1, doc){
         if (err1) return;
         if(doc == null) {
             collection.insertOne({ mac: mac }, function(err2, result) {
@@ -111,7 +111,7 @@ module.exports.insertData = function(db, data, callback) {
 
     var collection = db.collection("data");
     collection.insertOne({
-        mac: mac,
+        mac: mac.toLowerCase(),
         x01: x01,
         x02: x02,
         x03: x03,
@@ -139,7 +139,7 @@ module.exports.updateDeviceSleep = function(db, data, callback) {
     var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
 
     var collection = db.collection("devices");
-    collection.findOneAndUpdate({ mac: mac }, { $set: { status: 2 } }, {}, function(err, doc) {
+    collection.findOneAndUpdate({ mac: mac.toLowerCase() }, { $set: { status: 2 } }, {}, function(err, doc) {
         if (err) return;
         callback(doc);
     });
@@ -151,7 +151,7 @@ module.exports.updateDeviceWakeup = function(db, data, callback) {
     var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
 
     var collection = db.collection("devices");
-    collection.findOneAndUpdate({ mac: mac }, { $set: { status: 1 } }, {}, function(err, doc) {
+    collection.findOneAndUpdate({ mac: mac.toLowerCase() }, { $set: { status: 1 } }, {}, function(err, doc) {
         if (err) return;
         callback(doc);
     });
@@ -163,7 +163,7 @@ module.exports.updateDeviceLastUpdated = function(db, data, callback) {
     var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
 
     var collection = db.collection("devices");
-    collection.findOneAndUpdate({ mac: mac }, { $set: { last_updated: Date.now() } }, {}, function(err, doc) {
+    collection.findOneAndUpdate({ mac: mac.toLowerCase() }, { $set: { last_updated: Date.now() } }, {}, function(err, doc) {
         if (err) return;
         callback(doc);
     });
@@ -179,7 +179,7 @@ module.exports.insertDocument2 = function(db, data, callback) {
     var x11 = this.toDec(fields[36]) + this.toDec(fields[37]); //温度
 
     var collection = db.collection(config.COLLECTION);
-    collection.insertOne({ mac: mac, data: data + ' - ' + x01 + ', ' + x09 + ', ' + x10 + ', ' + x11, date: Date.now() }, function(err, doc) {
+    collection.insertOne({ mac: mac.toLowerCase(), data: data + ' - ' + x01 + ', ' + x09 + ', ' + x10 + ', ' + x11, date: Date.now() }, function(err, doc) {
         if (err) return;
         callback(doc);
     });

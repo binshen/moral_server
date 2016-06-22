@@ -28,7 +28,7 @@ mongoClient.connect(config.URL, function(err, db) {
             }
 
             //1.心跳命令行
-            if(value.startsWith('5a000a010001')) {
+            if(value.startsWith('5a0010010001')) {
                 socket.write(new Buffer(config.OUTPUT_1));
                 return;
             }
@@ -38,14 +38,12 @@ mongoClient.connect(config.URL, function(err, db) {
                 method.insertDocument2(db, value, function(data) {});
                 method.insertData(db, value, function(data) {});
                 method.updateDeviceLastUpdated(db, value, function(data) {});
-                socket.write(new Buffer([]));
                 return;
             }
 
             //7.主机休眠前发送即将休眠的命令
             if(value.startsWith('5a0010010007')) {
                 method.updateDeviceSleep(db, value, function(data) {});
-                socket.write(new Buffer([]));
                 return;
             }
 
@@ -90,9 +88,9 @@ mongoClient.connect(config.URL, function(err, db) {
             }
         });
         socket.on('close', function(data) {
-            console.log('Closed socket: ' + socket.remoteAddress +' '+ socket.remotePort);
+            console.log('Closed socket: ' + socket.remoteAddress + ' ' + socket.remotePort);
         });
     }).listen(config.PORT, config.HOST);
     
-    console.log('TCP Server listening on ' + config.HOST +':'+ config.PORT);
+    console.log('TCP Server listening on ' + config.HOST + ':' + config.PORT);
 });
