@@ -3,6 +3,7 @@
  */
 
 var net = require('net');
+var moment = require('moment');
 var mongoClient = require('mongodb').MongoClient;
 var config = require('./config');
 var method = require('./method');
@@ -38,16 +39,29 @@ mongoClient.connect(config.URL, function(err, db) {
                 return;
             }
 
+            //4.云端时间
+            if(value.startsWith('5a000a010004')) {
+                var current_time = moment();
+                var output = [
+                    0x6A, 0x00, 0x0e, 0x01, 0x00, 0x04,  //包头(0-5)
+                    parseInt(current_time.format('s')),  //秒
+                    parseInt(current_time.format('m')),  //分
+                    parseInt(current_time.format('H')),  //小时
+                    parseInt(current_time.format('D')),  //日
+                    parseInt(current_time.format('M')),  //月
+                    parseInt(current_time.format('E')),  //星期
+                    parseInt(current_time.format('YY')), //年
+                    0x36, //校验和
+                    0x6B  //包尾
+                ];
+                socket.write(new Buffer(output));
+                return;
+            }
+
             //2.云地址写入WIFI模块
             if(value.startsWith('5a0033010002')) {
                 method.insertDocument(db, value, function(data) {});
                 socket.write(new Buffer(config.OUTPUT_2));
-                return;
-            }
-
-            //4.云端时间
-            if(value.startsWith('5a000a010004')) {
-                socket.write(new Buffer(config.OUTPUT_4));
                 return;
             }
 

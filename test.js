@@ -1,6 +1,10 @@
 // /**
 //  * Created by bin.shen on 5/30/16.
 //  */
+
+var method = require('./method');
+var config = require('./config');
+
 //
 // var str = "5a002f010001";
 // var key1 = "5a002f010001a1b245";
@@ -131,42 +135,40 @@
 //     });
 // });
 
-// http://momentjs.com/docs/
-var moment = require('moment');
-var now = moment();
-console.log(now.format('YY'));
-console.log(now.format('M'));
-console.log(now.format('D'));
-console.log(now.format('e'));
-console.log(now.format('H'));
-console.log(now.format('m'));
-console.log(now.format('s'));
-
-var method = require('./method');
-console.log(parseInt("10", 16));
-console.log(16..toString(16));
-console.log(Number('0x' + "ff"));
-console.log(0x10);
-
-var hex = [ 0x6A, 0x00, 0x0A, 0x01, 0x00, 0x0C, 0xF2, 0x2F, 0x38, 0x6B ];
-var dec = [ 106, 0, 10, 1, 0, 12, 242, 47, 56, 107 ];
-console.log(new Buffer(hex));
-console.log(new Buffer(dec));
-
-var config = require('./config');
-var output = config.OUTPUT_4;
-console.log(output);
-console.log(new Buffer(output));
-output[6] = parseInt(now.format('s'));
-output[7] = parseInt(now.format('m'));
-output[8] = parseInt(now.format('H'));
-output[9] = parseInt(now.format('D'));
-output[10] = parseInt(now.format('M'));
-output[11] = parseInt(now.format('e'));
-output[12] = parseInt(now.format('YY'));
-output[13] = method.toDec(method.calSum(output));
-console.log(output);
-console.log(new Buffer(output));
-
-console.log(new Buffer(config.OUTPUT_1));
-console.log(method.calSum(config.OUTPUT_1));
+// // http://momentjs.com/docs/
+// var moment = require('moment');
+// var now = moment();
+// console.log(now.format('YY'));
+// console.log(now.format('M'));
+// console.log(now.format('D'));
+// console.log(now.format('e'));
+// console.log(now.format('H'));
+// console.log(now.format('m'));
+// console.log(now.format('s'));
+//
+// console.log(parseInt("10", 16));
+// console.log(16..toString(16));
+// console.log(Number('0x' + "ff"));
+// console.log(0x10);
+//
+// var hex = [ 0x6A, 0x00, 0x0A, 0x01, 0x00, 0x0C, 0xF2, 0x2F, 0x38, 0x6B ];
+// var dec = [ 106, 0, 10, 1, 0, 12, 242, 47, 56, 107 ];
+// console.log(new Buffer(hex));
+// console.log(new Buffer(dec));
+//
+// var output = config.OUTPUT_4;
+// console.log(output);
+// console.log(new Buffer(output));
+// output[6] = parseInt(now.format('s'));
+// output[7] = parseInt(now.format('m'));
+// output[8] = parseInt(now.format('H'));
+// output[9] = parseInt(now.format('D'));
+// output[10] = parseInt(now.format('M'));
+// output[11] = parseInt(now.format('e'));
+// output[12] = parseInt(now.format('YY'));
+// output[13] = method.toDec(method.calSum(output));
+// console.log(output);
+// console.log(new Buffer(output));
+//
+// console.log(new Buffer(config.OUTPUT_1));
+// console.log(method.calSum(config.OUTPUT_1));
