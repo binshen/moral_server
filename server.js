@@ -38,12 +38,14 @@ mongoClient.connect(config.URL, function(err, db) {
                 method.insertDocument2(db, value, function(data) {});
                 method.insertData(db, value, function(data) {});
                 method.updateDeviceLastUpdated(db, value, function(data) {});
+                socket.write(new Buffer([]));
                 return;
             }
 
             //7.主机休眠前发送即将休眠的命令
             if(value.startsWith('5a0010010007')) {
                 method.updateDeviceSleep(db, value, function(data) {});
+                socket.write(new Buffer([]));
                 return;
             }
 
