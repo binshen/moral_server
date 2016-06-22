@@ -173,14 +173,15 @@ var config = require('./config');
 // console.log(new Buffer(config.OUTPUT_1));
 // console.log(method.calSum(config.OUTPUT_1));
 
+// var mongoClient = require('mongodb').MongoClient;
+// var URL = 'mongodb://121.40.92.176:27017/moral_db';
+// var COLLECTION = 'data';
+//
+// mongoClient.connect(URL, function(err, db) {
+//     if (err) return;
+//     console.log('Connecting to Mongo DB at ' + URL);
+//
+//     method.updateDeviceLastUpdated(db, "5a0010010004accf23b87fa2a44a035b", function(doc) { })
+// });
 
-var mongoClient = require('mongodb').MongoClient;
-var URL = 'mongodb://121.40.92.176:27017/moral_db';
-var COLLECTION = 'data';
-
-mongoClient.connect(URL, function(err, db) {
-    if (err) return;
-    console.log('Connecting to Mongo DB at ' + URL);
-
-    method.updateDeviceLastUpdated(db, "5a0010010004accf23b87fa2a44a035b", function(doc) { })
-});
+//console.log("5a0010010007accf23b87fa2".startsWith("5a0010010007"));
