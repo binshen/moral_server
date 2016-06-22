@@ -2,6 +2,7 @@
  * Created by bin.shen on 6/4/16.
  */
 
+var moment = require('moment');
 var config = require('./config');
 
 module.exports.toDec = function(hex) {
@@ -99,39 +100,41 @@ module.exports.insertData = function(db, data, callback) {
     var fields = data.match(/.{2}/g);
 
     var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
-    var x01 = this.toDec(fields[20]) + this.toDec(fields[21]); //PM2.5数据
-    var x02 = this.toDec(fields[22]) + this.toDec(fields[23]); //PM10
-    var x03 = this.toDec(fields[24]) + this.toDec(fields[25]); //0.1升0.3um量
-    var x04 = this.toDec(fields[26]) + this.toDec(fields[27]); //0.1升2.5um量
-    var x05 = fields[28]; //(甲醛）(首字)
-    var x06 = fields[29]; //(甲醛）(ID)
-    var x07 = fields[30]; //(甲醛）(数据单位)
-    var x08 = fields[31]; //(甲醛）(当量)
-    var x09 = this.toDec(fields[32]) + this.toDec(fields[33]); //甲醛
+    var x1  = this.toDec(fields[20]) + this.toDec(fields[21]); //PM2.5数据
+    var x2  = this.toDec(fields[22]) + this.toDec(fields[23]); //PM10
+    var x3  = this.toDec(fields[24]) + this.toDec(fields[25]); //0.1升0.3um量
+    var x4  = this.toDec(fields[26]) + this.toDec(fields[27]); //0.1升2.5um量
+    var x5  = fields[28]; //(甲醛）(首字)
+    var x6  = fields[29]; //(甲醛）(ID)
+    var x7  = fields[30]; //(甲醛）(数据单位)
+    var x8  = fields[31]; //(甲醛）(当量)
+    var x9  = this.toDec(fields[32]) + this.toDec(fields[33]); //甲醛
     var x10 = this.toDec(fields[34]) + this.toDec(fields[35]); //湿度
     var x11 = this.toDec(fields[36]) + this.toDec(fields[37]); //温度
     var x12 = this.toDec(fields[38]) + this.toDec(fields[39]); //风速
     var x13 = this.toDec(fields[40]) + this.toDec(fields[41]); //电池电量
     var x14 = this.toDec(fields[42]) + this.toDec(fields[43]); //光线强度
 
+    var moment = moment();
     var collection = db.collection("data");
     collection.insertOne({
         mac: mac.toLowerCase(),
-        x01: x01,
-        x02: x02,
-        x03: x03,
-        x04: x04,
-        x05: x05,
-        x06: x06,
-        x07: x07,
-        x08: x08,
-        x09: x09,
+        x1: x1,
+        x2: x2,
+        x3: x3,
+        x4: x4,
+        x5: x5,
+        x6: x6,
+        x7: x7,
+        x8: x8,
+        x9: x9,
         x10: x10,
         x11: x11,
         x12: x12,
         x13: x13,
         x14: x14,
-        date: Date.now()
+        day: moment.format('YYYYMMDD'),
+        created: moment.valueOf()
     }, function(err, result) {
         if (err) return;
         callback(result);
