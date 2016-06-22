@@ -73,6 +73,11 @@ module.exports.checkSum2 = function(fields) {
     }
 };
 
+module.exports.getMac = function(data) {
+    var fields = data.match(/.{2}/g);
+    var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
+    return mac.toLowerCase();
+};
 
 module.exports.registerDevice = function(db, data, callback) {
     var fields = data.match(/.{2}/g);

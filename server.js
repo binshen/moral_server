@@ -29,12 +29,20 @@ mongoClient.connect(config.URL, function(err, db) {
 
             //1.心跳命令行
             if(value.startsWith('5a0010010001')) {
+                var mac = method.getMac(value);
+                if(mac == 'accf23b87fa2') {
+                    console.log("1-" + value);
+                }
                 socket.write(new Buffer(config.OUTPUT_1));
                 return;
             }
 
             //3.传感器数据上传
             if(value.startsWith('5a0033010003')) {
+                var mac = method.getMac(value);
+                if(mac == 'accf23b87fa2') {
+                    console.log("2-" + value);
+                }
                 method.insertDocument2(db, value, function(data) {});
                 method.insertData(db, value, function(data) {});
                 method.updateDeviceLastUpdated(db, value, function(data) {});
