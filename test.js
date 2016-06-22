@@ -185,3 +185,7 @@ var config = require('./config');
 // });
 
 //console.log("5a0010010007accf23b87fa2".startsWith("5a0010010007"));
+
+console.log(new Date());
+var moment = require('moment');
+console.log(moment().format("YYYY-MM-DD HH:mm:ss"))

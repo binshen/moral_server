@@ -31,7 +31,7 @@ mongoClient.connect(config.URL, function(err, db) {
             if(value.startsWith('5a0010010001')) {
                 var mac = method.getMac(value);
                 if(mac == 'accf23b87fa2') {
-                    console.log("1-" + value);
+                    console.log("1-" + moment().format("YYYY-MM-DD HH:mm:ss") + ": " + value);
                 }
                 socket.write(new Buffer(config.OUTPUT_1));
                 return;
@@ -41,7 +41,7 @@ mongoClient.connect(config.URL, function(err, db) {
             if(value.startsWith('5a0033010003')) {
                 var mac = method.getMac(value);
                 if(mac == 'accf23b87fa2') {
-                    console.log("2-" + value);
+                    console.log("2-" + moment().format("YYYY-MM-DD HH:mm:ss") + ": " + value);
                 }
                 method.insertDocument2(db, value, function(data) {});
                 method.insertData(db, value, function(data) {});
