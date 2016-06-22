@@ -37,11 +37,19 @@ mongoClient.connect(config.URL, function(err, db) {
             if(value.startsWith('5a0033010003')) {
                 method.insertDocument2(db, value, function(data) {});
                 method.insertData(db, value, function(data) {});
+                method.updateDeviceLastUpdated(db, value, function(data) {});
+                return;
+            }
+
+            //7.主机休眠前发送即将休眠的命令
+            if(value.startsWith('5a0010010007')) {
+                method.updateDeviceSleep(db, value, function(data) {});
                 return;
             }
 
             //4.云端时间
-            if(value.startsWith('5a000a010004')) {
+            if(value.startsWith('5a0010010004')) {
+                method.updateDeviceWakeup(db, value, function(data) {});
                 var current_time = moment();
                 var output = [
                     0x6A, 0x00, 0x0e, 0x01, 0x00, 0x04,  //包头(0-5)
