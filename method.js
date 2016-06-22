@@ -115,7 +115,7 @@ module.exports.insertData = function(db, data, callback) {
     var x13 = this.toDec(fields[40]) + this.toDec(fields[41]); //电池电量
     var x14 = this.toDec(fields[42]) + this.toDec(fields[43]); //光线强度
 
-    var moment = moment();
+    var current = moment();
     var collection = db.collection("data");
     collection.insertOne({
         mac: mac.toLowerCase(),
@@ -133,8 +133,8 @@ module.exports.insertData = function(db, data, callback) {
         x12: x12,
         x13: x13,
         x14: x14,
-        day: moment.format('YYYYMMDD'),
-        created: moment.valueOf()
+        day: current.format('YYYYMMDD'),
+        created: current.valueOf()
     }, function(err, result) {
         if (err) return;
         callback(result);
