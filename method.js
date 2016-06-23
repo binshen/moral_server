@@ -147,7 +147,7 @@ module.exports.updateDeviceSleep = function(db, data, callback) {
     var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
 
     var collection = db.collection("devices");
-    collection.findOneAndUpdate({ mac: mac.toLowerCase() }, { $set: { status: 2 } }, {}, function(err, doc) {
+    collection.findOneAndUpdate({ mac: mac.toLowerCase() }, { $set: { status: 0 } }, {}, function(err, doc) {
         if (err) return;
         callback(doc);
     });
