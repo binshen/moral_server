@@ -80,15 +80,22 @@ module.exports.getMac = function(data) {
     return mac.toLowerCase();
 };
 
+module.exports.getAppStatus = function(db, data, callback) {
+    var mac = this.getMac(data);
+    db.collection("devices").find({ mac: mac }).limit(1).next(function(err, doc){
+        if (err) return;
+        callback(doc);
+    });
+};
+
 module.exports.registerDevice = function(db, data, callback) {
-    var fields = data.match(/.{2}/g);
-    var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
+    var mac = this.getMac(data);
     var collection = db.collection("devices");
-    collection.find({ mac: mac.toLowerCase() }).limit(1).next(function(err1, doc){
-        if (err1) return;
+    collection.find({ mac: mac }).limit(1).next(function(err, doc){
+        if (err) return;
         if(doc == null) {
-            collection.insertOne({ mac: mac }, function(err2, result) {
-                if (err2) return;
+            collection.insertOne({ mac: mac }, function(err, result) {
+                if (err) return;
                 callback(result);
             });
         }
@@ -142,36 +149,27 @@ module.exports.insertData = function(db, data, callback) {
 };
 
 module.exports.updateDeviceSleep = function(db, data, callback) {
-    var fields = data.match(/.{2}/g);
-
-    var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
-
+    var mac = this.getMac(data);
     var collection = db.collection("devices");
-    collection.findOneAndUpdate({ mac: mac.toLowerCase() }, { $set: { status: 0 } }, {}, function(err, doc) {
+    collection.findOneAndUpdate({ mac: mac }, { $set: { status: 0 } }, {}, function(err, doc) {
         if (err) return;
         callback(doc);
     });
 };
 
 module.exports.updateDeviceWakeup = function(db, data, callback) {
-    var fields = data.match(/.{2}/g);
-
-    var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
-
+    var mac = this.getMac(data);
     var collection = db.collection("devices");
-    collection.findOneAndUpdate({ mac: mac.toLowerCase() }, { $set: { status: 1 } }, {}, function(err, doc) {
+    collection.findOneAndUpdate({ mac: mac }, { $set: { status: 1 } }, {}, function(err, doc) {
         if (err) return;
         callback(doc);
     });
 };
 
 module.exports.updateDeviceLastUpdated = function(db, data, callback) {
-    var fields = data.match(/.{2}/g);
-
-    var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
-
+    var mac = this.getMac(data);
     var collection = db.collection("devices");
-    collection.findOneAndUpdate({ mac: mac.toLowerCase() }, { $set: { last_updated: Date.now() } }, {}, function(err, doc) {
+    collection.findOneAndUpdate({ mac: mac }, { $set: { last_updated: Date.now() } }, {}, function(err, doc) {
         if (err) return;
         callback(doc);
     });

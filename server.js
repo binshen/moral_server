@@ -29,11 +29,15 @@ mongoClient.connect(config.URL, function(err, db) {
 
             //1.心跳命令行
             if(value.startsWith('5a0010010001')) {
-                var mac = method.getMac(value);
-                if(mac == 'accf23b87fa2') {
-                    console.log("1-" + moment().format("YYYY-MM-DD HH:mm:ss") + ": " + value);
-                }
-                socket.write(new Buffer(config.OUTPUT_1));
+                var output = config.OUTPUT_1;
+                method.getAppStatus(db, value, function(doc) {
+                    var app_status = doc.app_status;
+                    var app_last_updated = doc.app_last_updated;
+                    if(app_status == 1 && Date.now() - app_last_updated <= 60 * 1000) {
+                        output[7] = 0x1B;
+                    }
+                    socket.write(new Buffer(output));
+                });
                 return;
             }
 
