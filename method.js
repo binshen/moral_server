@@ -89,12 +89,19 @@ module.exports.getAppStatus = function(db, data, callback) {
 };
 
 module.exports.registerDevice = function(db, data, callback) {
-    var mac = this.getMac(data);
+    var fields = data.match(/.{2}/g);
+    var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
+    var type = this.toDec(fields[15]) <= 80 ? 1 : 0;
     var collection = db.collection("devices");
-    collection.find({ mac: mac }).limit(1).next(function(err, doc){
+    collection.find({ mac: mac.toLowerCase() }).limit(1).next(function(err, doc){
         if (err) return;
         if(doc == null) {
-            collection.insertOne({ mac: mac }, function(err, result) {
+            collection.insertOne({ mac: mac.toLowerCase(), type: type }, function(err, result) {
+                if (err) return;
+                callback(result);
+            });
+        } else if(doc.type == null){
+            collection.findOneAndUpdate({ mac: mac.toLowerCase() }, { $set: { type: type } }, {}, function(err, result) {
                 if (err) return;
                 callback(result);
             });
