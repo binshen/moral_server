@@ -114,20 +114,20 @@ module.exports.insertData = function(db, data, callback) {
     var fields = data.match(/.{2}/g);
 
     var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
-    var x1  = this.toDec(fields[20]) + this.toDec(fields[21]); //PM2.5数据
-    var x2  = this.toDec(fields[22]) + this.toDec(fields[23]); //PM10
-    var x3  = this.toDec(fields[24]) + this.toDec(fields[25]); //0.1升0.3um量
-    var x4  = this.toDec(fields[26]) + this.toDec(fields[27]); //0.1升2.5um量
+    var x1  = this.toDec(fields[20]) * 256 + this.toDec(fields[21]); //PM2.5数据
+    var x2  = this.toDec(fields[22]) * 256 + this.toDec(fields[23]); //PM10
+    var x3  = this.toDec(fields[24]) * 256 + this.toDec(fields[25]); //0.1升0.3um量
+    var x4  = this.toDec(fields[26]) * 256 + this.toDec(fields[27]); //0.1升2.5um量
     var x5  = fields[28]; //(甲醛）(首字)
     var x6  = fields[29]; //(甲醛）(ID)
     var x7  = fields[30]; //(甲醛）(数据单位)
     var x8  = fields[31]; //(甲醛）(当量)
-    var x9  = this.toDec(fields[32]) + this.toDec(fields[33]); //甲醛
-    var x10 = this.toDec(fields[34]) + this.toDec(fields[35]); //湿度
-    var x11 = this.toDec(fields[36]) + this.toDec(fields[37]); //温度
-    var x12 = this.toDec(fields[38]) + this.toDec(fields[39]); //风速
-    var x13 = this.toDec(fields[40]) + this.toDec(fields[41]); //电池电量
-    var x14 = this.toDec(fields[42]) + this.toDec(fields[43]); //光线强度
+    var x9  = this.toDec(fields[32]) * 256 + this.toDec(fields[33]); //甲醛
+    var x10 = this.toDec(fields[34]) * 256 + this.toDec(fields[35]); //湿度
+    var x11 = this.toDec(fields[36]) * 256 + this.toDec(fields[37]); //温度
+    var x12 = this.toDec(fields[38]) * 256 + this.toDec(fields[39]); //风速
+    var x13 = this.toDec(fields[40]) * 256 + this.toDec(fields[41]); //电池电量
+    var x14 = this.toDec(fields[42]) * 256 + this.toDec(fields[43]); //光线强度
 
     var current = moment();
     var collection = db.collection("data");
@@ -186,10 +186,10 @@ module.exports.updateDeviceLastUpdated = function(db, data, callback) {
 module.exports.insertDocument2 = function(db, data, callback) {
     var fields = data.match(/.{2}/g);
     var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
-    var x01 = this.toDec(fields[20]) + this.toDec(fields[21]); //PM2.5数据
-    var x09 = this.toDec(fields[32]) + this.toDec(fields[33]); //甲醛
-    var x10 = this.toDec(fields[34]) + this.toDec(fields[35]); //湿度
-    var x11 = this.toDec(fields[36]) + this.toDec(fields[37]); //温度
+    var x01 = this.toDec(fields[20]) * 256 + this.toDec(fields[21]); //PM2.5数据
+    var x09 = this.toDec(fields[32]) * 256 + this.toDec(fields[33]); //甲醛
+    var x10 = this.toDec(fields[34]) * 256 + this.toDec(fields[35]); //湿度
+    var x11 = this.toDec(fields[36]) * 256 + this.toDec(fields[37]); //温度
 
     var collection = db.collection(config.COLLECTION);
     collection.insertOne({ mac: mac.toLowerCase(), data: data + ' - ' + x01 + ', ' + x09 + ', ' + x10 + ', ' + x11, date: Date.now() }, function(err, doc) {
