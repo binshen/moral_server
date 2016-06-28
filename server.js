@@ -29,7 +29,7 @@ mongoClient.connect(config.URL, function(err, db) {
 
             //1.心跳命令行
             if(value.startsWith('5a0010010001')) {
-                var output = config.OUTPUT_1;
+                var output = [ 0x6A, 0x00, 0x0A, 0x01, 0x00, 0x01, 0xA1, 0x1A, 0xC7, 0x6B ];
                 method.getAppStatus(db, value, function(doc) {
                     var app_status = doc.app_status;
                     var app_last_updated = doc.app_last_updated;
