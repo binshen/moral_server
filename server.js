@@ -33,7 +33,7 @@ mongoClient.connect(config.URL, function(err, db) {
                 method.getAppStatus(db, value, function(doc) {
                     var app_status = doc.app_status;
                     var app_last_updated = doc.app_last_updated;
-                    if(app_status == 1 && app_last_updated != null && Date.now() - app_last_updated <= 60 * 1000) {
+                    if(app_status == 1 && app_last_updated != null && Date.now() - app_last_updated <= 60000) {
                         output[7] = 0x1B;
                     }
                     socket.write(new Buffer(output));

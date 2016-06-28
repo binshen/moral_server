@@ -195,15 +195,24 @@ var config = require('./config');
 // console.log(moment().valueOf());
 // console.log(Date.now());
 
-var mongoClient = require('mongodb').MongoClient;
-var URL = 'mongodb://121.40.92.176:27017/moral_db';
+// var mongoClient = require('mongodb').MongoClient;
+// var URL = 'mongodb://121.40.92.176:27017/moral_db';
+//
+// mongoClient.connect(URL, function(err, db) {
+//     if (err) return;
+//     console.log('Connecting to Mongo DB at ' + URL);
+//
+//     var data = "5a0010010001accf23b87fbf";
+//     method.getAppStatus(db, data, function(user) {
+//         console.log(user)
+//     })
+// });
 
-mongoClient.connect(URL, function(err, db) {
-    if (err) return;
-    console.log('Connecting to Mongo DB at ' + URL);
-
-    var data = "5a0010010001accf23b87fbf";
-    method.getAppStatus(db, data, function(user) {
-        console.log(user)
-    })
-});
+// console.log("1467095406073");
+// app_status = 1;
+// app_last_updated = 1467095406073;
+// if(app_status == 1 && app_last_updated != null && Date.now() - app_last_updated <= 60 * 1000) {
+//     console.log("1");
+// } else {
+//     console.log("2");
+// }
