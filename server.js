@@ -64,7 +64,7 @@ mongoClient.connect(config.URL, function(err, db) {
                 method.updateDeviceWakeup(db, value, function(data) {});
                 var current_time = moment();
                 var output = [
-                    0x6A, 0x00, 0x0e, 0x01, 0x00, 0x04,  //包头(0-5)
+                    0x6A, 0x00, 0x0f, 0x01, 0x00, 0x04,  //包头(0-5)
                     parseInt(current_time.format('s')),  //秒
                     parseInt(current_time.format('m')),  //分
                     parseInt(current_time.format('H')),  //小时
@@ -87,7 +87,7 @@ mongoClient.connect(config.URL, function(err, db) {
             }
 
             //6.配网数据
-            if(value.startsWith('5a0033010006')) {
+            if(value.startsWith('5a003d010006')) {
                 method.registerDevice(db, value, function(data) {});
                 socket.write(new Buffer(config.OUTPUT_6));
                 return;

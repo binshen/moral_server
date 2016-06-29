@@ -99,19 +99,20 @@ module.exports.getAppStatus = function(db, data, callback) {
 module.exports.registerDevice = function(db, data, callback) {
     var fields = data.match(/.{2}/g);
     var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
+    mac = mac.toLowerCase();
     var ver1 = this.toDecStr(fields[16]) + '.' + this.toDecStr(fields[17]) + '.' + this.toDecStr(fields[18]) + '.' + this.toDecStr(fields[19]);
     var ver2 = '20' + this.toDateStr(fields[20]) + '-' + this.toDateStr(fields[21]) + '-' + this.toDateStr(fields[22]) + ' ' + this.toDateStr(fields[23]) + this.toDateStr(fields[24]) + this.toDateStr(fields[25]);
     var type = this.toDec(fields[15]) <= 80 ? 1 : 0;
     var collection = db.collection("devices");
-    collection.find({ mac: mac.toLowerCase() }).limit(1).next(function(err, doc){
+    collection.find({ mac: mac }).limit(1).next(function(err, doc){
         if (err) return;
         if(doc == null) {
-            collection.insertOne({ mac: mac.toLowerCase(), type: type, ver1: ver1, ver2: ver2 }, function(err, result) {
+            collection.insertOne({ mac: mac, type: type, ver1: ver1, ver2: ver2 }, function(err, result) {
                 if (err) return;
                 callback(result);
             });
         } else if(doc.type == null){
-            collection.findOneAndUpdate({ mac: mac.toLowerCase() }, { $set: { type: type, ver1: ver1, ver2: ver2 } }, {}, function(err, result) {
+            collection.findOneAndUpdate({ mac: mac }, { $set: { type: type, ver1: ver1, ver2: ver2 } }, {}, function(err, result) {
                 if (err) return;
                 callback(result);
             });
