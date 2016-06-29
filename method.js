@@ -111,7 +111,7 @@ module.exports.registerDevice = function(db, data, callback) {
                 if (err) return;
                 callback(result);
             });
-        } else if(doc.type == null){
+        } else {
             collection.findOneAndUpdate({ mac: mac }, { $set: { type: type, ver1: ver1, ver2: ver2 } }, {}, function(err, result) {
                 if (err) return;
                 callback(result);

@@ -216,3 +216,6 @@ var config = require('./config');
 // } else {
 //     console.log("2");
 // }
+
+var a = "5a003d010006accf23b87fbfa66a005101020304100601020003faae3e645e9cb3cfbb91f9e46eabefeacf42799af82218ec886c4bf04f9fef290000"
+console.log(a.length)
