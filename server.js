@@ -43,10 +43,6 @@ mongoClient.connect(config.URL, function(err, db) {
 
             //3.传感器数据上传
             if(value.startsWith('5a0033010003')) {
-                var mac = method.getMac(value);
-                if(mac == 'accf23b87fa2') {
-                    console.log("2-" + moment().format("YYYY-MM-DD HH:mm:ss") + ": " + value);
-                }
                 method.insertDocument2(db, value, function(data) {});
                 method.insertData(db, value, function(data) {});
                 method.updateDeviceLastUpdated(db, value, function(data) {});
