@@ -187,7 +187,7 @@ module.exports.updateDeviceWakeup = function(db, data, callback) {
 module.exports.updateDeviceLastUpdated = function(db, data, callback) {
     var mac = this.getMac(data);
     var collection = db.collection("devices");
-    collection.findOneAndUpdate({ mac: mac }, { $set: { last_updated: Date.now() } }, {}, function(err, doc) {
+    collection.findOneAndUpdate({ mac: mac }, { $set: { status: 1, last_updated: Date.now() } }, {}, function(err, doc) {
         if (err) return;
         callback(doc);
     });
