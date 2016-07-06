@@ -193,6 +193,22 @@ module.exports.updateDeviceLastUpdated = function(db, data, callback) {
     });
 };
 
+
+module.exports.getSort = function(db, data, callback) {
+    var collection = db.collection("data");
+    collection.aggregate([
+        { $match: { created: { $gt: Date.now() - 60*1000 }, x3: { $lt: data } } },
+        { $group: { _id: "$mac" } },
+        { $group: { _id: null, total:{ $sum: 1 } } }
+    ], function(err ,doc) {
+        if (err) return;
+        callback(doc[0]);
+    });
+};
+
+
+
+
 /////////////////////////////////////////////////
 module.exports.insertDocument2 = function(db, data, callback) {
     var fields = data.match(/.{2}/g);
