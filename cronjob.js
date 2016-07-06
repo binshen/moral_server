@@ -11,10 +11,15 @@ mongoClient.connect(config.URL, function(err, db) {
     if (err) return;
     console.log('Connecting to Mongo DB at ' + config.URL);
 
-    method.getSort(db, 5064, function (doc) {
-        if(doc != null) {
-            console.log(doc['total']);
-        }
+    // method.getSort(db, 5064, function (doc) {
+    //     if(doc != null) {
+    //         console.log(doc['total']);
+    //     }
+    //     db.close();
+    // });
+
+    method.createSort(db, function(docs){
+        console.log(docs)
         db.close();
     });
 });

@@ -206,8 +206,22 @@ module.exports.getSort = function(db, data, callback) {
     });
 };
 
-
-
+module.exports.createSort = function(db, callback) {
+    var _this = this;
+    db.collection("devices").find({ last_updated: { $gt: Date.now() - 60*1000 } }).toArray(function(err, docs){
+        if (err) return;
+        docs.forEach(function(doc) {
+            var mac = doc.mac;
+            db.collection("data").find({ mac: mac }).sort({created: -1}).limit(1).next(function(err, doc){
+                if (err) return;
+                var data = doc["x3"];
+                _this.getSort(db, data, function(doc) {
+                    console.log(mac + ": " + data + " - " + doc['total'])
+                });
+            });
+        });
+    });
+};
 
 /////////////////////////////////////////////////
 module.exports.insertDocument2 = function(db, data, callback) {
