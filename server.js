@@ -28,8 +28,8 @@ mongoClient.connect(config.URL, function(err, db) {
             }
 
             //1.心跳命令行
-            if(value.startsWith('5a0010010001')) {
-                var output = [ 0x6A, 0x00, 0x0A, 0x01, 0x00, 0x01, 0xA1, 0x1A, 0xC7, 0x6B ];
+            if(value.startsWith('5a0000010001')) {
+                var output = [ 0x6A, 0x00, 0x00, 0x01, 0x00, 0x01, 0xA1, 0x1A, 0xC7, 0x6B ];
                 method.getAppStatus(db, value, function(doc) {
                     var app_status = doc.app_status;
                     var app_last_updated = doc.app_last_updated;
@@ -42,15 +42,14 @@ mongoClient.connect(config.URL, function(err, db) {
             }
 
             //3.传感器数据上传
-            if(value.startsWith('5a0033010003')) {
+            if(value.startsWith('5a0000010003')) {
                 method.insertDocument2(db, value, function(data) {});
                 method.insertData(db, value, function(data) {});
                 method.updateDeviceLastUpdated(db, value, function(data) {});
 
-                var output = config.OUTPUT_3;
+                var output = [ 0x6A, 0x00, 0x00, 0x01, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x6B ];
                 var random = method.random(1000, 99999999);
-                var data = method.padLeft(random.toString(16), 8);
-                var fields = data.match(/.{2}/g);
+                var fields = method.padLeft(random.toString(16), 8).match(/.{2}/g);
                 output[6] = method.toDec(fields[0]);
                 output[7] = method.toDec(fields[1]);
                 output[8] = method.toDec(fields[2]);
@@ -60,17 +59,17 @@ mongoClient.connect(config.URL, function(err, db) {
             }
 
             //7.主机休眠前发送即将休眠的命令
-            if(value.startsWith('5a0010010007')) {
+            if(value.startsWith('5a0000010007')) {
                 method.updateDeviceSleep(db, value, function(data) {});
                 return;
             }
 
             //4.云端时间
-            if(value.startsWith('5a0010010004')) {
+            if(value.startsWith('5a0000010004')) {
                 method.updateDeviceWakeup(db, value, function(data) {});
                 var current_time = moment();
                 var output = [
-                    0x6A, 0x00, 0x0f, 0x01, 0x00, 0x04,  //包头(0-5)
+                    0x6A, 0x00, 0x00, 0x01, 0x00, 0x04,  //包头(0-5)
                     parseInt(current_time.format('s')),  //秒
                     parseInt(current_time.format('m')),  //分
                     parseInt(current_time.format('H')),  //小时
@@ -86,21 +85,21 @@ mongoClient.connect(config.URL, function(err, db) {
             }
 
             //2.云地址写入WIFI模块
-            if(value.startsWith('5a0033010002')) {
+            if(value.startsWith('5a0000010002')) {
                 method.insertDocument(db, value, function(data) {});
                 socket.write(new Buffer(config.OUTPUT_2));
                 return;
             }
 
             //6.配网数据
-            if(value.startsWith('5a003d010006')) {
+            if(value.startsWith('5a0000010006')) {
                 method.registerDevice(db, value, function(data) {});
                 socket.write(new Buffer(config.OUTPUT_6));
                 return;
             }
 
             //12.联云通知
-            if(value.startsWith('5a000a01000c')) {
+            if(value.startsWith('5a000001000c')) {
                 socket.write(new Buffer(config.OUTPUT_6));
                 return;
             }
