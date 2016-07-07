@@ -46,6 +46,16 @@ mongoClient.connect(config.URL, function(err, db) {
                 method.insertDocument2(db, value, function(data) {});
                 method.insertData(db, value, function(data) {});
                 method.updateDeviceLastUpdated(db, value, function(data) {});
+
+                var output = config.OUTPUT_3;
+                var random = method.random(1000, 99999999);
+                var data = method.padLeft(random.toString(16), 8);
+                var fields = data.match(/.{2}/g);
+                output[6] = method.toDec(fields[0]);
+                output[7] = method.toDec(fields[1]);
+                output[8] = method.toDec(fields[2]);
+                output[9] = method.toDec(fields[3]);
+                socket.write(new Buffer(output));
                 return;
             }
 

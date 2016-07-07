@@ -224,6 +224,20 @@ module.exports.createSort = function(db, callback) {
 };
 
 /////////////////////////////////////////////////
+
+module.exports.random = function random(n,m){
+    return Math.floor(Math.random() * (m - n + 1) + n);
+};
+
+module.exports.padLeft = function (str,lenght) {
+    if(str.length >= lenght) {
+        return str;
+    } else {
+        return this.padLeft("0"  + str, lenght);
+    }
+};
+
+/////////////////////////////////////////////////
 module.exports.insertDocument2 = function(db, data, callback) {
     var fields = data.match(/.{2}/g);
     var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
