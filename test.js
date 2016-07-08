@@ -220,13 +220,16 @@ var config = require('./config');
 // var a = "5a003d010006accf23b87fbfa66a005101020304100601020003faae3e645e9cb3cfbb91f9e46eabefeacf42799af82218ec886c4bf04f9fef290000"
 // console.log(a.length)
 
-var output = config.OUTPUT_3;
-console.log(output);
-var random = method.random(1000, 99999999);
-var data = method.padLeft(random.toString(16), 8);
-var fields = data.match(/.{2}/g);
-output[6] = method.toDec(fields[0]);
-output[7] = method.toDec(fields[1]);
-output[8] = method.toDec(fields[2]);
-output[9] = method.toDec(fields[3]);
-console.log(output);
+// var output = config.OUTPUT_3;
+// console.log(output);
+// var random = method.random(1000, 99999999);
+// var data = method.padLeft(random.toString(16), 8);
+// var fields = data.match(/.{2}/g);
+// output[6] = method.toDec(fields[0]);
+// output[7] = method.toDec(fields[1]);
+// output[8] = method.toDec(fields[2]);
+// output[9] = method.toDec(fields[3]);
+// console.log(output);
+
+var moment = require('moment');
+console.log(moment(1467949959086).format("YYYY-MM-DD HH:mm:ss"))

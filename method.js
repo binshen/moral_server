@@ -186,6 +186,7 @@ module.exports.insertData = function(db, data, callback) {
         p3: p3,
         p4: p4,
         fei: fei,
+        s: s,
         rank: rank,
         day: current.format('YYYYMMDD'),
         created: current.valueOf()
