@@ -43,18 +43,16 @@ mongoClient.connect(config.URL, function(err, db) {
 
             //3.传感器数据上传
             if(value.startsWith('5a0000010003')) {
-                method.insertDocument2(db, value, function(data) {});
-                method.insertData(db, value, function(data) {});
-                method.updateDeviceLastUpdated(db, value, function(data) {});
-
                 var output = [ 0x6A, 0x00, 0x00, 0x01, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x6B ];
-                var random = method.random(1000, 99999999);
-                var fields = method.padLeft(random.toString(16), 8).match(/.{2}/g);
-                output[6] = method.toDec(fields[0]);
-                output[7] = method.toDec(fields[1]);
-                output[8] = method.toDec(fields[2]);
-                output[9] = method.toDec(fields[3]);
-                socket.write(new Buffer(output));
+                method.insertDocument2(db, value, function(data) {});
+                method.insertData(db, value, function(data, rank) {
+                    var fields = this.padLeft(rank.toString(16), 8).match(/.{2}/g);
+                    output[6] = this.toDec(fields[0]);
+                    output[7] = this.toDec(fields[1]);
+                    output[8] = this.toDec(fields[2]);
+                    output[9] = this.toDec(fields[3]);
+                    socket.write(new Buffer(output));
+                });
                 return;
             }
 

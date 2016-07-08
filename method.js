@@ -125,6 +125,9 @@ module.exports.insertData = function(db, data, callback) {
     var fields = data.match(/.{2}/g);
 
     var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
+    mac = mac.toLowerCase();
+    this.updateDeviceLastUpdated(db, mac, function(data) {});
+
     var x1  = this.toDec(fields[20]) * 256 + this.toDec(fields[21]); //PM2.5数据
     var x2  = this.toDec(fields[22]) * 256 + this.toDec(fields[23]); //PM10
     var x3  = this.toDec(fields[24]) * 256 + this.toDec(fields[25]); //0.1升0.3um量
@@ -140,10 +143,30 @@ module.exports.insertData = function(db, data, callback) {
     var x13 = this.toDec(fields[40]) * 256 + this.toDec(fields[41]); //电池电量
     var x14 = this.toDec(fields[42]) * 256 + this.toDec(fields[43]); //光线强度
 
+    var s = this.toDec(fields[44]);
+    var p1 = this.toDec(fields[45]);
+    var p2 = this.toDec(fields[46]);
+    var p3 = this.toDec(fields[47]);
+    var p4 = this.toDec(fields[48]);
+    var fei = this.toDec(fields[55]);
+    var t = this.toDec(fields[56]);
+
     var current = moment();
-    var collection = db.collection("data");
-    collection.insertOne({
-        mac: mac.toLowerCase(),
+    if(t > 0) {
+        db.collection("device_tests").insertOne({
+            mac: mac,
+            test: t,
+            created: current.valueOf()
+        }, function(err, result) { });
+    }
+
+    var rank = 0;
+    if(s > 0) {
+        rank = this.random(1000, 99999999);
+    }
+
+    db.collection("data").insertOne({
+        mac: mac,
         x1: x1,
         x2: x2,
         x3: x3,
@@ -158,11 +181,17 @@ module.exports.insertData = function(db, data, callback) {
         x12: x12,
         x13: x13,
         x14: x14,
+        p1: p1,
+        p2: p2,
+        p3: p3,
+        p4: p4,
+        fei: fei,
+        rank: rank,
         day: current.format('YYYYMMDD'),
         created: current.valueOf()
     }, function(err, result) {
         if (err) return;
-        callback(result);
+        callback(result, rank);
     });
 };
 
@@ -184,8 +213,7 @@ module.exports.updateDeviceWakeup = function(db, data, callback) {
     });
 };
 
-module.exports.updateDeviceLastUpdated = function(db, data, callback) {
-    var mac = this.getMac(data);
+module.exports.updateDeviceLastUpdated = function(db, mac, callback) {
     var collection = db.collection("devices");
     collection.findOneAndUpdate({ mac: mac }, { $set: { status: 1, last_updated: Date.now() } }, {}, function(err, doc) {
         if (err) return;
