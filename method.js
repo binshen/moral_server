@@ -90,6 +90,8 @@ module.exports.getMac = function(data) {
 
 module.exports.getAppStatus = function(db, data, callback) {
     var mac = this.getMac(data);
+    this.updateDeviceLastUpdated(db, mac, function(data) {});
+    
     db.collection("devices").find({ mac: mac }).limit(1).next(function(err, doc){
         if (err) return;
         callback(doc);
@@ -107,12 +109,12 @@ module.exports.registerDevice = function(db, data, callback) {
     collection.find({ mac: mac }).limit(1).next(function(err, doc){
         if (err) return;
         if(doc == null) {
-            collection.insertOne({ mac: mac, type: type, ver1: ver1, ver2: ver2 }, function(err, result) {
+            collection.insertOne({ mac: mac, type: type, ver1: ver1, ver2: ver2, status: 1, last_updated: Date.now() }, function(err, result) {
                 if (err) return;
                 callback(result);
             });
         } else {
-            collection.findOneAndUpdate({ mac: mac }, { $set: { type: type, ver1: ver1, ver2: ver2 } }, {}, function(err, result) {
+            collection.findOneAndUpdate({ mac: mac }, { $set: { type: type, ver1: ver1, ver2: ver2, status: 1, last_updated: Date.now() } }, {}, function(err, result) {
                 if (err) return;
                 callback(result);
             });
