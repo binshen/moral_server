@@ -154,17 +154,23 @@ module.exports.insertData = function(db, data, callback) {
     var t = this.toDec(fields[56]);
 
     var current = moment();
+
+    var rank = 0;
+    if(s > 0) {
+        rank = this.random(1000, 99999999);
+        db.collection("device_ranks").insertOne({
+            mac: mac,
+            rank: rank,
+            created: current.valueOf()
+        }, function(err, result) { });
+    }
+
     if(t > 0) {
         db.collection("device_tests").insertOne({
             mac: mac,
             test: t,
             created: current.valueOf()
         }, function(err, result) { });
-    }
-
-    var rank = 0;
-    if(s > 0) {
-        rank = this.random(1000, 99999999);
     }
 
     db.collection("data").insertOne({
