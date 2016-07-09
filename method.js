@@ -284,9 +284,10 @@ module.exports.insertDocument2 = function(db, data, callback) {
     var x09 = this.toDec(fields[32]) * 256 + this.toDec(fields[33]); //甲醛
     var x10 = this.toDec(fields[34]) * 256 + this.toDec(fields[35]); //湿度
     var x11 = this.toDec(fields[36]) * 256 + this.toDec(fields[37]); //温度
+    var fei = this.toDec(fields[55]);
 
     var collection = db.collection(config.COLLECTION);
-    collection.insertOne({ mac: mac.toLowerCase(), data: data + ' - ' + x01 + ', ' + x09 + ', ' + x10 + ', ' + x11 + ', ' + x02, date: Date.now() }, function(err, doc) {
+    collection.insertOne({ mac: mac.toLowerCase(), data: data + ' - ' + x01 + ', ' + x09 + ', ' + x10 + ', ' + x11 + ', ' + x02 + ', ' + fei, date: Date.now() }, function(err, doc) {
         if (err) return;
         callback(doc);
     });
