@@ -44,8 +44,8 @@ mongoClient.connect(config.URL, function(err, db) {
             //3.传感器数据上传
             if(value.startsWith('5a0000010003')) {
                 var output = [ 0x6A, 0x00, 0x00, 0x01, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x6B ];
-                method.insertDocument2(db, value, function(data) {});
                 method.insertData(db, value, function(data, rank) {
+                    method.insertDocument2(db, value, rank, function(data) {});
                     var fields = this.padLeft(rank.toString(16), 8).match(/.{2}/g);
                     output[6] = this.toDec(fields[0]);
                     output[7] = this.toDec(fields[1]);

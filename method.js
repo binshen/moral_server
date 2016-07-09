@@ -275,7 +275,7 @@ module.exports.padLeft = function (str,lenght) {
 };
 
 /////////////////////////////////////////////////
-module.exports.insertDocument2 = function(db, data, callback) {
+module.exports.insertDocument2 = function(db, data, rank, callback) {
     var fields = data.match(/.{2}/g);
     var mac = fields[6] + fields[7] + fields[8] + fields[9] + fields[10] + fields[11]; //Mac
 
@@ -287,7 +287,7 @@ module.exports.insertDocument2 = function(db, data, callback) {
     var fei = this.toDec(fields[55]);
 
     var collection = db.collection(config.COLLECTION);
-    collection.insertOne({ mac: mac.toLowerCase(), data: data + ' - ' + x01 + ', ' + x09 + ', ' + x10 + ', ' + x11 + ', ' + x02 + ', ' + fei, date: Date.now() }, function(err, doc) {
+    collection.insertOne({ mac: mac.toLowerCase(), data: data + ' - ' + x01 + ', ' + x09 + ', ' + x10 + ', ' + x11 + ', ' + x02 + ', ' + fei + ', ' + rank, date: Date.now() }, function(err, doc) {
         if (err) return;
         callback(doc);
     });
