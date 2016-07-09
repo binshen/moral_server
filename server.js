@@ -46,11 +46,11 @@ mongoClient.connect(config.URL, function(err, db) {
                 var output = [ 0x6A, 0x00, 0x00, 0x01, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x6B ];
                 method.insertData(db, value, function(data, rank) {
                     method.insertDocument2(db, value, rank, function(data) {});
-                    var fields = this.padLeft(rank.toString(16), 8).match(/.{2}/g);
-                    output[6] = this.toDec(fields[0]);
-                    output[7] = this.toDec(fields[1]);
-                    output[8] = this.toDec(fields[2]);
-                    output[9] = this.toDec(fields[3]);
+                    var fields = method.padLeft(rank.toString(16), 8).match(/.{2}/g);
+                    output[6] = method.toDec(fields[0]);
+                    output[7] = method.toDec(fields[1]);
+                    output[8] = method.toDec(fields[2]);
+                    output[9] = method.toDec(fields[3]);
                     socket.write(new Buffer(output));
                 });
                 return;
