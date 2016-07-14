@@ -150,7 +150,7 @@ module.exports.insertData = function(db, data, callback) {
     var p2 = this.toDec(fields[46]);
     var p3 = this.toDec(fields[47]);
     var p4 = this.toDec(fields[48]);
-    var fei = this.toDec(fields[55]);
+    var fei = this.toDec(fields[58]);
     var t = this.toDec(fields[56]);
 
     var current = moment();
