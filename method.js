@@ -284,10 +284,12 @@ module.exports.insertDocument2 = function(db, data, rank, callback) {
     var x09 = this.toDec(fields[32]) * 256 + this.toDec(fields[33]); //甲醛
     var x10 = this.toDec(fields[34]) * 256 + this.toDec(fields[35]); //湿度
     var x11 = this.toDec(fields[36]) * 256 + this.toDec(fields[37]); //温度
+    var x14 = this.toDec(fields[42]) * 256 + this.toDec(fields[43]); //光线强度
+
     var fei = this.toDec(fields[55]);
 
     var collection = db.collection(config.COLLECTION);
-    collection.insertOne({ mac: mac.toLowerCase(), data: data + ' - ' + x01 + ', ' + x09 + ', ' + x10 + ', ' + x11 + ', ' + x02 + ', ' + fei + ', ' + rank, date: Date.now() }, function(err, doc) {
+    collection.insertOne({ mac: mac.toLowerCase(), data: data + ' - PM2.5:' + x01 + ', 甲醛:' + x09 + ', 湿度:' + x10 + ', 温度:' + x11 + ', 个数' + x02 + ', FEI:' + fei + ', 排名:' + rank + ', 光照:' + x14, date: Date.now() }, function(err, doc) {
         if (err) return;
         callback(doc);
     });
