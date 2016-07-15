@@ -152,6 +152,7 @@ module.exports.insertData = function(db, data, callback) {
     var p4 = this.toDec(fields[48]);
     var fei = this.toDec(fields[58]);
     var t = this.toDec(fields[56]);
+    var aqi = this.toDec(fields[60]) * 256 + this.toDec(fields[61]); //AQI
 
     var current = moment();
 
@@ -194,6 +195,7 @@ module.exports.insertData = function(db, data, callback) {
         p3: p3,
         p4: p4,
         fei: fei,
+        aqi: aqi,
         s: s,
         rank: rank,
         day: current.format('YYYYMMDD'),
@@ -286,10 +288,11 @@ module.exports.insertDocument2 = function(db, data, rank, callback) {
     var x11 = this.toDec(fields[36]) * 256 + this.toDec(fields[37]); //温度
     var x14 = this.toDec(fields[42]) * 256 + this.toDec(fields[43]); //光线强度
 
-    var fei = this.toDec(fields[55]);
+    var fei = this.toDec(fields[58]);
+    var aqi = this.toDec(fields[60]) * 256 + this.toDec(fields[61]);
 
     var collection = db.collection(config.COLLECTION);
-    collection.insertOne({ mac: mac.toLowerCase(), data: data + ' - PM2.5:' + x01 + ', 甲醛:' + x09 + ', 湿度:' + x10 + ', 温度:' + x11 + ', 个数' + x02 + ', FEI:' + fei + ', 排名:' + rank + ', 光照:' + x14, date: Date.now() }, function(err, doc) {
+    collection.insertOne({ mac: mac.toLowerCase(), data: data + ' - PM2.5:' + x01 + ', 甲醛:' + x09 + ', 湿度:' + x10 + ', 温度:' + x11 + ', 个数' + x02 + ', FEI:' + fei + ', 评级:' + rank + ', 光照:' + x14 + ', API:' + aqi, date: Date.now() }, function(err, doc) {
         if (err) return;
         callback(doc);
     });
