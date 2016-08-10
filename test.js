@@ -231,5 +231,11 @@ var config = require('./config');
 // output[9] = method.toDec(fields[3]);
 // console.log(output);
 
+// / var moment = require('moment');
+// console.log(moment(1468224163155).format("YYYY-MM-DD HH:mm:ss"))
+
+//console.log(Math.floor(Math.random() * 3 + 1))
+
 var moment = require('moment');
-console.log(moment(1467949959086).format("YYYY-MM-DD HH:mm:ss"))
+var current = moment().format('YYYY-MM-DD HH:mm:ss');
+console.log(current);
