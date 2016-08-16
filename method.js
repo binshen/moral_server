@@ -137,8 +137,15 @@ module.exports.insertData = function(db, data, callback) {
     var x5  = fields[28]; //(甲醛）(首字)
     var x6  = fields[29]; //(甲醛）(ID)
     var x7  = fields[30]; //(甲醛）(数据单位)
-    var x8  = fields[31]; //(甲醛）(当量)
+    var x8  = this.toDec(fields[31]); //(甲醛）(当量)
     var x9  = this.toDec(fields[32]) * 256 + this.toDec(fields[33]); //甲醛
+    if(x8 == 4) {
+        x9 = x9 / 1000;
+    } else if(x8 == 3) {
+        x9 = x9 / 100;
+    } else if(x8 == 2) {
+        x9 = x9 / 10;
+    }
     var x10 = this.toDec(fields[34]) * 256 + this.toDec(fields[35]); //湿度
     var x11 = this.toDec(fields[36]) * 256 + this.toDec(fields[37]); //温度
     var x12 = this.toDec(fields[38]) * 256 + this.toDec(fields[39]); //风速

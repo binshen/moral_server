@@ -5,7 +5,10 @@
 var amqp = require('amqplib/callback_api');
 var moment = require('moment');
 
-amqp.connect('amqp://121.40.92.176', function(err, conn) {
+var uri = 'amqp://guest:guest@121.40.92.176'; //'amqp://121.40.92.176';
+//var uri = 'amqp://localhost';
+
+amqp.connect(uri, function(err, conn) {
 
     conn.createChannel(function(err, ch) {
 
