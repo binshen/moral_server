@@ -166,7 +166,7 @@ module.exports.insertData = function(db, data, callback) {
 
     var rank = 0;
     if(s > 0) {
-        rank = this.random(1000, 99999999);
+        rank = this.random(1000, 99999);//this.random(1000, 99999999);
         db.collection("device_ranks").insertOne({
             mac: mac,
             rank: rank,
