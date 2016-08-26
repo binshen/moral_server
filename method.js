@@ -300,6 +300,7 @@ module.exports.insertDocument2 = function(db, data, rank, callback) {
     var fei = this.toDec(fields[58]);
     var ferval = this.toDec(fields[59]);
     var aqi = this.toDec(fields[60]) * 256 + this.toDec(fields[61]);
+    var ddv = this.toDec(fields[62]) * 256 + this.toDec(fields[63]);
 
     db.collection("devices").find({ mac: mac }).limit(1).next(function(err, doc){
         if (err) return;
@@ -310,7 +311,7 @@ module.exports.insertDocument2 = function(db, data, rank, callback) {
         if(app_status == 1 && app_last_updated != null && Date.now() - app_last_updated <= 30000) {
             app = 1;
         }
-        db.collection(config.COLLECTION).insertOne({ mac: mac.toLowerCase(), data: data + ' - PM2.5:' + x01 + ', 甲醛:' + x09 + ', 湿度:' + x10 + ', 温度:' + x11 + ', 个数:' + x02 + ', FEI:' +  ferval + ', 评级:' + fei + ', 光照:' + x14 + ', AQI:' + aqi + ', APP:' + app, date: Date.now() }, function(err, doc) {
+        db.collection(config.COLLECTION).insertOne({ mac: mac.toLowerCase(), data: data + ' - PM2.5:' + x01 + ', 甲醛:' + x09 + ', 湿度:' + x10 + ', 温度:' + x11 + ', 个数:' + x02 + ', FEI:' +  ferval + ', 评级:' + fei + ', 光照:' + x14 + ', AQI:' + aqi + + ', 电池电压:' + ddv + ', APP:' + app, date: Date.now() }, function(err, doc) {
             if (err) return;
             callback(doc);
         });
