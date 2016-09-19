@@ -162,6 +162,9 @@ module.exports.insertData = function(db, data, callback) {
     var t = this.toDec(fields[56]);
     var aqi = this.toDec(fields[60]) * 256 + this.toDec(fields[61]); //AQI
 
+    var ddv = this.toDec(fields[62]) * 256 + this.toDec(fields[63]);
+    var mcu = this.toDec(fields[64]) + this.toDec(fields[65]) / 100;
+
     var current = moment();
 
     var rank = 0;
@@ -207,6 +210,8 @@ module.exports.insertData = function(db, data, callback) {
         aqi: aqi,
         s: s,
         rank: rank,
+        ddv: ddv,
+        mcu: mcu,
         day: current.format('YYYYMMDD'),
         created: current.valueOf()
     }, function(err, result) {
