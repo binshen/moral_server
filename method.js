@@ -147,7 +147,8 @@ module.exports.insertData = function(db, data, callback) {
         x9 = x9 / 10;
     }
     var x10 = this.toDec(fields[34]) * 256 + this.toDec(fields[35]); //湿度
-    var x11 = this.toDec(fields[36]) * 256 + this.toDec(fields[37]); //温度
+    //var x11 = this.toDec(fields[36]) * 256 + this.toDec(fields[37]); //温度
+    var x11 = this.toDec(fields[36]) == 0 ? this.toDec(fields[37]) : -1 * this.toDec(fields[37]);
     var x12 = this.toDec(fields[38]) * 256 + this.toDec(fields[39]); //风速
     var x13 = this.toDec(fields[40]) * 256 + this.toDec(fields[41]); //电池电量
     var x14 = this.toDec(fields[42]) * 256 + this.toDec(fields[43]); //光线强度

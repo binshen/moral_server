@@ -8,6 +8,8 @@ var moment = require('moment');
 var uri = 'amqp://guest:guest@121.40.92.176'; //'amqp://121.40.92.176';
 //var uri = 'amqp://localhost';
 
+//var uri = 'amqp://moral:m2!o0@r1#a6l@121.40.92.176'; //'amqp://121.40.92.176';
+
 amqp.connect(uri, function(err, conn) {
     conn.createChannel(function(err, ch) {
 
